@@ -1,15 +1,15 @@
-#N canvas 381 257 960 1011 10;
+#N canvas 381 30 960 1011 10;
 #X obj 20 20 netreceive 9001;
 #X obj 322 201 print;
-#X text 378 50 The 'route' object allows splitting up packets based
-on their name \, which must match the names assigned in the send_<robot>_<data>.py
-files.;
-#X text 19 228 The order of the inlets matters and should be labeled
-in the controller_<robot>_<tag> file accordingly;
-#X obj 112 76 route linear_velocity;
+#X text 378 50 The 'route' object allows splitting up packets based on their name \, which must match the names assigned in the send_<robot>_<data>.py files.;
+#X text 19 228 The order of the inlets matters and should be labeled in the controller_<robot>_<tag> file accordingly;
 #X obj 20 200 controller_stretch_test;
-#X connect 0 0 4 0;
-#X connect 4 0 1 0;
-#X connect 4 0 5 0;
-#X connect 4 1 1 0;
-#X connect 4 1 5 1;
+#X obj 112 76 route x_pos y_pos z_pos;
+#X connect 0 0 5 0;
+#X connect 5 0 1 0;
+#X connect 5 0 4 0;
+#X connect 5 1 1 0;
+#X connect 5 1 4 1;
+#X connect 5 2 1 0;
+#X connect 5 2 4 2;
+#X connect 5 3 1 0;

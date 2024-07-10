@@ -9,7 +9,9 @@ import rospy
 from sensor_msgs.msg import JointState
 
 
-
+init_x = 0
+init_y = 0 
+init_z = 0
 # Callback to handle SIGINT and SIGTERM
 def keyboard_interrupt_callback(_1, _2):
     if connected:
@@ -18,11 +20,22 @@ def keyboard_interrupt_callback(_1, _2):
 
 
 # Send linear and angular velocity to Pd
-def motion_to_pd(data):
+def x_callback(msg):
     if connected:
-        index = data.name.index('joint_lift')
-        velocity = data.velocity[index]
-        msg_linear_velocity = 'linear_velocity ' + str(velocity) + ';'
+        pos = abs(msg.data-init_x)
+        msg_linear_velocity = 'x_pos ' + str(pos) + ';'
+        pd_socket.send(msg_linear_velocity.encode('utf-8'))
+
+def y_callback(msg):
+    if connected:
+        pos = abs(msg.data-init_y)
+        msg_linear_velocity = 'y_pos ' + str(pos) + ';'
+        pd_socket.send(msg_linear_velocity.encode('utf-8'))
+
+def z_callback(msg):
+    if connected:
+        pos = abs(msg.data-init_z)
+        msg_linear_velocity = 'z_pos ' + str(pos) + ';'
         pd_socket.send(msg_linear_velocity.encode('utf-8'))
         
 if __name__ == '__main__':
@@ -39,7 +52,10 @@ if __name__ == '__main__':
 
     # ROS setup
     rospy.init_node('pd_transport', anonymous=True)
-    rospy.Subscriber('/joint_states', JointState, motion_to_pd)
+    rospy.Subscriber('/ee_position_x', Float32, x_callback)
+    rospy.Subscriber('/ee_position_y', Float32, y_callback)
+    rospy.Subscriber('/ee_position_z', Float32, z_callback)
+    #rospy.Subscriber('/joint_states', JointState, motion_to_pd)
 
     connected = False
 
