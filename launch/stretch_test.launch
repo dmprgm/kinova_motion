@@ -4,8 +4,8 @@
     <arg name="port" default="9001"/>
 
     <!-- ROS-to-Pd nodes -->
-    <node name="pd_transport" pkg="sonify_it" type="send_stretch_lift_speed.py" args="$(arg ip) $(arg port)" output="screen"/>
+    <node name="pd_transport" pkg="kinova_motion" type="send_stretch_lift_speed.py" args="$(arg ip) $(arg port)" output="screen"/>
 
     <!-- Pd persistent node -->
-    <node name="pd_main" pkg="sonify_it" type="pd_stretch_test.py" cwd="node" output="screen"/>
+    <node name="pd_main" pkg="kinova_motion" type="pd_stretch_test.py" cwd="node" output="screen"/>
 </launch>
